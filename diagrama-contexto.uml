@@ -1,0 +1,36 @@
+
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_LANDSCAPE()
+
+title Diagrama de Contexto TADSxandria Biblioteca
+
+Person(visitor, "Visitante", "Cliente do banco que interage com o sistema via navegador web")
+
+Person(user, "Usuário", "Cliente do banco que interage com o sistema via navegador web")
+
+Person(student, "Orientandos", "Cliente do banco que interage com o sistema via navegador web")
+
+Person(teacher, "Orientador", "Cliente do banco que interage com o sistema via navegador web")
+
+
+System(system, "TADSxandria Biblioteca", "Permite que os clientes consultem e gerem boletos bancários") 
+
+System_Ext(api_email, "Sistema de Email", "API externa para auxiliar na geração de boletos bancários")
+
+System_Ext(api_github, "Github API", "API externa para auxiliar na geração de boletos bancários")
+
+System_Ext(api_suap, "SUAP API", "API externa para auxiliar na geração de boletos bancários")
+
+
+Rel(visitor, system, "Realiza consulta e solicita a geração de boletos")
+Rel(user, system, "Realiza consulta e solicita a geração de boletos")
+Rel(student, system, "Realiza consulta e solicita a geração de boletos")
+Rel(teacher, system, "Realiza consulta e solicita a geração de boletos")
+
+Rel(system, api_email, "Integração com a API externa da Bankly")
+Rel(system, api_suap, "Integração com a API externa da Bankly")
+Rel(system, api_github, "Integração com a API externa da Bankly")
+
+@enduml
