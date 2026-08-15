@@ -6,16 +6,15 @@ LAYOUT_LANDSCAPE()
 
 title Diagrama de Contexto TADSxandria Biblioteca
 
-Person(visitor, "Visitante", "Cliente do banco que interage com o sistema via navegador web")
+Person(visitante, "Visitante", "Usuário não autenticado que explora os conteúdos públicos do sistema de forma restrita.")
 
-Person(user, "Usuário", "Cliente do banco que interage com o sistema via navegador web")
+Person(comum, "Comum", "Usuário autenticado que possui acesso total às funcionalidades de navegação da plataforma.")
 
-Person(student, "Orientandos", "Cliente do banco que interage com o sistema via navegador web")
+Person(orientando, "Orientando", "Usuário autenticado que possui acesso total às funcionalidades de navegação e restrito das de gerência de projetos.")
 
-Person(teacher, "Orientador", "Cliente do banco que interage com o sistema via navegador web")
+Person(orientador, "Orientador", "Usuário autenticado que possui acesso total às funcionalidades de navegação e de gerência de projetos.")
 
-
-System(system, "TADSxandria Biblioteca", "Permite que os clientes consultem e gerem boletos bancários") 
+System(system, "TADSxandria Biblioteca", "Permite os usuários pesquisar/publicar PDSs, além de os editar, remover, compartilhar, comentar nas páginas dos PDSs, ler/baixar documentos dos PDSs e gerenciar/acessar perfis de outros usuários.") 
 
 System_Ext(api_email, "Sistema de Email", "API externa para auxiliar na geração de boletos bancários")
 
@@ -23,11 +22,16 @@ System_Ext(api_github, "Github API", "API externa para auxiliar na geração de 
 
 System_Ext(api_suap, "SUAP API", "API externa para auxiliar na geração de boletos bancários")
 
+Lay_R(visitante, comum)
+Lay_R(comum, orientando)
+Lay_R(orientando, orientador)
+Lay_D(visitante, system)
+Lay_D(orientador, system)
 
-Rel(visitor, system, "Realiza consulta e solicita a geração de boletos")
-Rel(user, system, "Realiza consulta e solicita a geração de boletos")
-Rel(student, system, "Realiza consulta e solicita a geração de boletos")
-Rel(teacher, system, "Realiza consulta e solicita a geração de boletos")
+Rel(visitante, system, "Consultar PDSs e visualizar páginas dos PDSs.")
+Rel(comum, system, "Comenta, avalia, favorita e baixar/ler documentos dos PDSs e gerenciar seu perfil de usuário e acessar perfis de outros usuários.")
+Rel(orientando, system, "Editar com restrições PDS atribuído.")
+Rel(orientador, system, "Criar PDS, atribuir orientandos aos PDs e editar PDSs.")
 
 Rel(system, api_email, "Integração com a API externa da Bankly")
 Rel(system, api_suap, "Integração com a API externa da Bankly")
