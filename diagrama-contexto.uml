@@ -1,36 +1,29 @@
-
 @startuml
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
 
 LAYOUT_LANDSCAPE()
 
-title Diagrama de Contexto TADSxandria Biblioteca
+title Diagrama de Contexto - TADSXandria
 
-Person(visitor, "Visitante", "Cliente do banco que interage com o sistema via navegador web")
+Person(usuario, "Usuário comum", "Usuário autenticado que pode interagir com os projetos publicados")
+Person(orientador, "Orientador", "Docente responsável por cadastrar os projetos")
+Person(orientando, "Orientando", "Discente responsável pelo desenvolvimento e gerenciamento do projeto")
+Person(visitante, "Visitante", "Pessoa que acessa a plataforma sem realizar login")
 
-Person(user, "Usuário", "Cliente do banco que interage com o sistema via navegador web")
+System(system, "TADSXandria", "Repositório público de trabalhos e projetos desenvolvidos pelos discentes do curso TADS do IFRN CNAT")
 
-Person(student, "Orientandos", "Cliente do banco que interage com o sistema via navegador web")
+System_Ext(api_suap, "API SUAP", "API externa utilizada para autenticação dos usuários por meio das credenciais institucionais")
+System_Ext(api_google, "API Google", "API externa utilizada para autenticação por meio de uma conta Google")
+System_Ext(api_github, "API GitHub", "API externa utilizada para autenticação por meio de uma conta GitHub")
 
-Person(teacher, "Orientador", "Cliente do banco que interage com o sistema via navegador web")
+Rel(orientador, system, "Cadastra projetos")
+Rel(orientando, system, "Gerencia projetos")
+Rel(visitante, system, "Pesquisa e visualiza projetos")
+Rel(usuario, system, "Pesquisa, visualiza e interage com projetos")
 
-
-System(system, "TADSxandria Biblioteca", "Permite que os clientes consultem e gerem boletos bancários") 
-
-System_Ext(api_email, "Sistema de Email", "API externa para auxiliar na geração de boletos bancários")
-
-System_Ext(api_github, "Github API", "API externa para auxiliar na geração de boletos bancários")
-
-System_Ext(api_suap, "SUAP API", "API externa para auxiliar na geração de boletos bancários")
-
-
-Rel(visitor, system, "Realiza consulta e solicita a geração de boletos")
-Rel(user, system, "Realiza consulta e solicita a geração de boletos")
-Rel(student, system, "Realiza consulta e solicita a geração de boletos")
-Rel(teacher, system, "Realiza consulta e solicita a geração de boletos")
-
-Rel(system, api_email, "Integração com a API externa da Bankly")
-Rel(system, api_suap, "Integração com a API externa da Bankly")
-Rel(system, api_github, "Integração com a API externa da Bankly")
+Rel(system, api_suap, "Autentica usuários")
+Rel(system, api_google, "Autentica usuários")
+Rel(system, api_github, "Autentica usuários")
 
 @enduml

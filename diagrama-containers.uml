@@ -1,0 +1,36 @@
+@startuml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_LANDSCAPE()
+
+title Diagrama de Containers - TADSXandria
+
+Person(usuario, "Usuário comum", "Usuário autenticado que pode interagir com os projetos publicados")
+Person(orientador, "Orientador", "Docente responsável por cadastrar os projetos")
+Person(orientando, "Orientando", "Discente responsável pelo desenvolvimento e gerenciamento do projeto")
+Person(visitante, "Visitante", "Pessoa que acessa a plataforma sem realizar login")
+
+System_Boundary(system, "TADSXandria") {
+
+    Container(web, "Aplicação Web", "Python / Django 6.0.4", "Aplicação monolítica responsável pelas rotas HTTP, regras de negócio, autenticação, renderização dos templates HTML e gerenciamento de arquivos e imagens")
+
+    ContainerDb(db, "Banco de Dados", "SQLite", "Armazena os dados dos usuários, projetos, comentários, avaliações e demais informações da plataforma")
+}
+
+System_Ext(api_suap, "API SUAP", "API externa utilizada para autenticação dos usuários por meio das credenciais institucionais")
+System_Ext(api_google, "API Google", "API externa utilizada para autenticação por meio de uma conta Google")
+System_Ext(api_github, "API GitHub", "API externa utilizada para autenticação por meio de uma conta GitHub")
+
+Rel(orientador, web, "Cadastra projetos")
+Rel(orientando, web, "Gerencia projetos")
+Rel(visitante, web, "Pesquisa e visualiza projetos")
+Rel(usuario, web, "Pesquisa, visualiza e interage com projetos")
+
+Rel(web, db, "Lê e grava dados", "Django ORM")
+
+Rel(web, api_suap, "Autentica usuários")
+Rel(web, api_google, "Autentica usuários")
+Rel(web, api_github, "Autentica usuários")
+
+@enduml
