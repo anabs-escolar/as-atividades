@@ -1,4 +1,3 @@
-
 @startuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
@@ -16,11 +15,23 @@ Person(orientador, "Orientador", "Usuário autenticado que possui acesso total �
 
 System(system, "TADSxandria Biblioteca", "Permite os usuários pesquisar/publicar PDSs, além de os editar, remover, compartilhar, comentar nas páginas dos PDSs, ler/baixar documentos dos PDSs e gerenciar/acessar perfis de outros usuários.") 
 
-System_Ext(api_email, "Sistema de Email", "API externa para auxiliar na geração de boletos bancários")
+title Diagrama de Contexto - TADSXandria
 
-System_Ext(api_github, "Github API", "API externa para auxiliar na geração de boletos bancários")
+Person(usuario, "Usuário comum", "Usuário autenticado que pode interagir com os projetos publicados")
+Person(orientador, "Orientador", "Docente responsável por cadastrar os projetos")
+Person(orientando, "Orientando", "Discente responsável pelo desenvolvimento e gerenciamento do projeto")
+Person(visitante, "Visitante", "Pessoa que acessa a plataforma sem realizar login")
 
-System_Ext(api_suap, "SUAP API", "API externa para auxiliar na geração de boletos bancários")
+System(system, "TADSXandria", "Repositório público de trabalhos e projetos desenvolvidos pelos discentes do curso TADS do IFRN CNAT")
+
+System_Ext(api_suap, "API SUAP", "API externa utilizada para autenticação dos usuários por meio das credenciais institucionais")
+System_Ext(api_google, "API Google", "API externa utilizada para autenticação por meio de uma conta Google")
+System_Ext(api_github, "API GitHub", "API externa utilizada para autenticação por meio de uma conta GitHub")
+
+Rel(orientador, system, "Cadastra projetos")
+Rel(orientando, system, "Gerencia projetos")
+Rel(visitante, system, "Pesquisa e visualiza projetos")
+Rel(usuario, system, "Pesquisa, visualiza e interage com projetos")
 
 Lay_R(visitante, comum)
 Lay_R(comum, orientando)
@@ -33,8 +44,8 @@ Rel(comum, system, "Comenta, avalia, favorita e baixar/ler documentos dos PDSs e
 Rel(orientando, system, "Editar com restrições PDS atribuído.")
 Rel(orientador, system, "Criar PDS, atribuir orientandos aos PDs e editar PDSs.")
 
-Rel(system, api_email, "Integração com a API externa da Bankly")
-Rel(system, api_suap, "Integração com a API externa da Bankly")
-Rel(system, api_github, "Integração com a API externa da Bankly")
+Rel(system, api_suap, "Autentica usuários")
+Rel(system, api_google, "Autentica usuários")
+Rel(system, api_github, "Autentica usuários")
 
 @enduml
