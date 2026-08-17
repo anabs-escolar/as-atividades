@@ -1,8 +1,19 @@
 @startuml
-
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
 LAYOUT_LANDSCAPE()
+
+title Diagrama de Contexto TADSxandria Biblioteca
+
+Person(visitante, "Visitante", "Usuário não autenticado que explora os conteúdos públicos do sistema de forma restrita.")
+
+Person(comum, "Comum", "Usuário autenticado que possui acesso total às funcionalidades de navegação da plataforma.")
+
+Person(orientando, "Orientando", "Usuário autenticado que possui acesso total às funcionalidades de navegação e restrito das de gerência de projetos.")
+
+Person(orientador, "Orientador", "Usuário autenticado que possui acesso total às funcionalidades de navegação e de gerência de projetos.")
+
+System(system, "TADSxandria Biblioteca", "Permite os usuários pesquisar/publicar PDSs, além de os editar, remover, compartilhar, comentar nas páginas dos PDSs, ler/baixar documentos dos PDSs e gerenciar/acessar perfis de outros usuários.") 
 
 title Diagrama de Contexto - TADSXandria
 
@@ -21,6 +32,17 @@ Rel(orientador, system, "Cadastra projetos")
 Rel(orientando, system, "Gerencia projetos")
 Rel(visitante, system, "Pesquisa e visualiza projetos")
 Rel(usuario, system, "Pesquisa, visualiza e interage com projetos")
+
+Lay_R(visitante, comum)
+Lay_R(comum, orientando)
+Lay_R(orientando, orientador)
+Lay_D(visitante, system)
+Lay_D(orientador, system)
+
+Rel(visitante, system, "Consultar PDSs e visualizar páginas dos PDSs.")
+Rel(comum, system, "Comenta, avalia, favorita e baixar/ler documentos dos PDSs e gerenciar seu perfil de usuário e acessar perfis de outros usuários.")
+Rel(orientando, system, "Editar com restrições PDS atribuído.")
+Rel(orientador, system, "Criar PDS, atribuir orientandos aos PDs e editar PDSs.")
 
 Rel(system, api_suap, "Autentica usuários")
 Rel(system, api_google, "Autentica usuários")
