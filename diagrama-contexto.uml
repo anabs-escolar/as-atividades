@@ -13,31 +13,11 @@ Person(orientando, "Orientando", "Usuário autenticado que possui acesso total �
 
 Person(orientador, "Orientador", "Usuário autenticado que possui acesso total às funcionalidades de navegação e de gerência de projetos.")
 
-System(system, "TADSxandria Biblioteca", "Permite os usuários pesquisar/publicar PDSs, além de os editar, remover, compartilhar, comentar nas páginas dos PDSs, ler/baixar documentos dos PDSs e gerenciar/acessar perfis de outros usuários.") 
-
-title Diagrama de Contexto - TADSXandria
-
-Person(usuario, "Usuário comum", "Usuário autenticado que pode interagir com os projetos publicados")
-Person(orientador, "Orientador", "Docente responsável por cadastrar os projetos")
-Person(orientando, "Orientando", "Discente responsável pelo desenvolvimento e gerenciamento do projeto")
-Person(visitante, "Visitante", "Pessoa que acessa a plataforma sem realizar login")
-
-System(system, "TADSXandria", "Repositório público de trabalhos e projetos desenvolvidos pelos discentes do curso TADS do IFRN CNAT")
+System(system, "TADSxandria Biblioteca", "Repositório de projetos do curso TADS. \n Permite os usuários pesquisar/publicar PDSs, além de os editar, remover, compartilhar, comentar nas páginas dos PDSs, ler/baixar documentos dos PDSs e gerenciar/acessar perfis de outros usuários.")
 
 System_Ext(api_suap, "API SUAP", "API externa utilizada para autenticação dos usuários por meio das credenciais institucionais")
 System_Ext(api_google, "API Google", "API externa utilizada para autenticação por meio de uma conta Google")
 System_Ext(api_github, "API GitHub", "API externa utilizada para autenticação por meio de uma conta GitHub")
-
-Rel(orientador, system, "Cadastra projetos")
-Rel(orientando, system, "Gerencia projetos")
-Rel(visitante, system, "Pesquisa e visualiza projetos")
-Rel(usuario, system, "Pesquisa, visualiza e interage com projetos")
-
-Lay_R(visitante, comum)
-Lay_R(comum, orientando)
-Lay_R(orientando, orientador)
-Lay_D(visitante, system)
-Lay_D(orientador, system)
 
 Rel(visitante, system, "Consultar PDSs e visualizar páginas dos PDSs.")
 Rel(comum, system, "Comenta, avalia, favorita e baixar/ler documentos dos PDSs e gerenciar seu perfil de usuário e acessar perfis de outros usuários.")
@@ -46,6 +26,6 @@ Rel(orientador, system, "Criar PDS, atribuir orientandos aos PDs e editar PDSs."
 
 Rel(system, api_suap, "Autentica usuários")
 Rel(system, api_google, "Autentica usuários")
-Rel(system, api_github, "Autentica usuários")
+Rel(system, api_github, "Autentica usuários, extrai dados dos repositórios")
 
 @enduml

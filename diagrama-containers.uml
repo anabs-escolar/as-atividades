@@ -6,31 +6,37 @@ LAYOUT_LANDSCAPE()
 
 title Diagrama de Containers - TADSXandria
 
-Person(usuario, "Usuário comum", "Usuário autenticado que pode interagir com os projetos publicados")
-Person(orientador, "Orientador", "Docente responsável por cadastrar os projetos")
-Person(orientando, "Orientando", "Discente responsável pelo desenvolvimento e gerenciamento do projeto")
-Person(visitante, "Visitante", "Pessoa que acessa a plataforma sem realizar login")
+Person(visitante, "Visitante", "Usuário não autenticado que explora os conteúdos públicos do sistema de forma restrita.")
+
+Person(usuario, "Comum", "Usuário autenticado que possui acesso total às funcionalidades de navegação da plataforma.")
+
+Person(orientando, "Orientando", "Usuário autenticado que possui acesso total às funcionalidades de navegação e restrito das de gerência de projetos.")
+
+Person(orientador, "Orientador", "Usuário autenticado que possui acesso total às funcionalidades de navegação e de gerência de projetos.")
 
 System_Boundary(system, "TADSXandria") {
 
-    Container(web, "Aplicação Web", "Python / Django 6.0.4", "Aplicação monolítica responsável pelas rotas HTTP, regras de negócio, autenticação, renderização dos templates HTML e gerenciamento de arquivos e imagens")
+    Container(back, "Aplicação Backend", "Python / Django 6.0.4", "Aplicação responsável pelo serviço de API REST, regras de negócio, autenticação, e registro de dados")
 
-    ContainerDb(db, "Banco de Dados", "SQLite", "Armazena os dados dos usuários, projetos, comentários, avaliações e demais informações da plataforma")
+    Container(front, "Aplicação Frontend", "JS / Typescript / Angular 22", "Aplicação responsável pela interface web onde o usuário pode interagir com os projetos e realizar operações como cadastro, edição e exclusão de projetos")
+
+    ContainerDb(db, "Banco de Dados", "PostgreSQL 18.6", "Armazena os dados dos usuários, projetos, comentários, avaliações e demais informações da plataforma")
 }
 
 System_Ext(api_suap, "API SUAP", "API externa utilizada para autenticação dos usuários por meio das credenciais institucionais")
 System_Ext(api_google, "API Google", "API externa utilizada para autenticação por meio de uma conta Google")
 System_Ext(api_github, "API GitHub", "API externa utilizada para autenticação por meio de uma conta GitHub")
 
-Rel(orientador, web, "Cadastra projetos")
-Rel(orientando, web, "Gerencia projetos")
-Rel(visitante, web, "Pesquisa e visualiza projetos")
-Rel(usuario, web, "Pesquisa, visualiza e interage com projetos")
+Rel(visitante, system, "Consultar PDSs e visualizar páginas dos PDSs.")
+Rel(usuario, system, "Comenta, avalia, favorita e baixar/ler documentos dos PDSs e gerenciar seu perfil de usuário e acessar perfis de outros usuários.")
+Rel(orientando, system, "Editar com restrições PDS atribuído.")
+Rel(orientador, system, "Criar PDS, atribuir orientandos aos PDs e editar PDSs.")
 
-Rel(web, db, "Lê e grava dados", "Django ORM")
+Rel(front, back, "Requisições HTTP para API REST", "JSON/HTTP")
+Rel(back, db, "Lê e grava dados", "Django ORM")
 
-Rel(web, api_suap, "Autentica usuários")
-Rel(web, api_google, "Autentica usuários")
-Rel(web, api_github, "Autentica usuários")
+Rel(back, api_suap, "Autentica usuários")
+Rel(back, api_google, "Autentica usuários")
+Rel(back, api_github, "Autentica usuários e extrai dados dos repositórios")
 
 @enduml
