@@ -16,7 +16,7 @@ Person(orientador, "Orientador", "Usuário autenticado que possui acesso total �
 
 System_Boundary(system, "TADSXandria") {
 
-    Container(back, "Aplicação Backend", "Python / Django 6.0.4", "Aplicação responsável pelo serviço de API REST, regras de negócio, autenticação, e registro de dados")
+    Container(back, "Aplicação Backend", "Python / Django 6.0.4 / Django REST Framework 3.18", "Aplicação responsável pelo serviço de API REST, regras de negócio, autenticação, e registro de dados")
 
     Container(front, "Aplicação Frontend", "JS / Typescript / Angular 22", "Aplicação responsável pela interface web onde o usuário pode interagir com os projetos e realizar operações como cadastro, edição e exclusão de projetos")
 
